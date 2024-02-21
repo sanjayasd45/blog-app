@@ -1,0 +1,53 @@
+<% layout('/layouts/boilerplate') -%>
+    <section>
+        <section class="mt-5 offset-3 col-6">
+            <div class="card m-2">
+                <img src="<%= postData.img  %>" class="card-img-top" alt="img" style="height: 18rem; ">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= postData.title %>
+                    </h5>
+                    <p class="card-text ">
+                        <%= postData.content %>
+                    </p>
+                    <div class="mb-3">
+                        <span>@<%= postData.author  %></span>
+                        <samp><%= JSON.stringify(postData.date).substring(1,11)  %></samp>
+                    </div>
+                    <div class="d-flex">
+                        <form action="/post/<%= postData._id  %>/edit">
+                            <button class="btn btn-primary">Edit</button>
+                        </form>
+                        <form method="POST" action="/post/<%= postData._id%>?_method=DELETE">
+                            <button class="btn btn-primary ">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap">
+                <% for(reviewData of postData.reviews) { %>
+                    <div class="mr-2 border rounded p-2" >
+                        <p>Rating - <%= reviewData.rating %></p>
+                        <p><%= reviewData.comment  %></p>
+                        <div class="d-flex ">
+                            <form method="POST" action="/post/<%= postData._id%>/review/<%=reviewData._id %>?_method=DELETE">
+                                <button class="btn btn-primary ">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <form method="POST" action="/review/<%= postData._id%>" class="border p-3 rounded mt-3 mb-3 needs-validation" novalidate>
+                <div>
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="range" name="rating" min="1" max="5" class="form-range" id="customRange1">
+                </div>
+                <div class="mb-3">
+                    <label for="review"  class="form-label">Add Your Review</label>
+                    <textarea class="form-control" name="comment"  rows="3" required ></textarea>
+                    <div class="invalid-feedback">Write something to add</div>
+                </div>
+                <button class="btn btn-primary">Add Review</button>
+            </form>
+        </section>
+    </section>

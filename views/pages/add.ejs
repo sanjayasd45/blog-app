@@ -1,0 +1,27 @@
+<% layout('/layouts/boilerplate') -%>
+<section>
+    <div class="offset-3 col-6 mt-5">
+        <form method="POST" action="/add" novalidate class="needs-validation ">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Add Title</label>
+                <input type="text" class="form-control"  placeholder="Title" name="title" required>
+                <div class="invalid-feedback">Enter Valid Title</div>       
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Add Your Content</label>
+                <textarea class="form-control" name="content"  rows="3" required></textarea>
+                <div class="invalid-feedback">Enter Valid Content</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Add image url</label>
+                <input type="text" class="form-control"  placeholder="image url" name="img">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Add Author Name</label>
+                <input type="text" class="form-control"  placeholder="Author" name="author" required>
+                <div class="invalid-feedback">Enter Valid Author Name </div>
+            </div>
+            <button class="btn btn-primary">Add Post</button>
+        </form>
+    </div>
+</section>

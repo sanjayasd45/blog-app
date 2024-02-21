@@ -1,0 +1,28 @@
+<% layout('/layouts/boilerplate') -%>
+<section>
+    <div class="offset-3 col-6 mt-5">
+        <form method="POST" novalidate class="needs-validation" action="/post/<%= data._id  %>/edit?_method=PUT">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Edit Title</label>
+                <input type="text" class="form-control" required value="<%= data.title  %>" placeholder="Title" name="title">
+                <div class="invalid-feedback">Enter Valid Title</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Edit Your Content</label>
+                <textarea class="form-control" required name="content"  rows="3"><%= data.content  %></textarea>
+                <div class="invalid-feedback">Enter Valid Content</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Edit image url</label>
+                <input type="text" class="form-control" required placeholder="image url" name="img" value="<%= data.img  %>">
+                <div class="invalid-feedback">Enter Valid image URL</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" >Add Author Name</label>
+                <input type="text" class="form-control"  placeholder="Author" value="<%= data.author  %>" name="author" disabled>
+            </div>
+            <button class="btn btn-primary">Save Changes</button>
+        </form>
+
+    </div>
+</section>

@@ -1,0 +1,14 @@
+<% layout('/layouts/boilerplate') -%>
+<form class="mt-5 offset-3 col-6 needs-validation" novalidate action="/user/login" method="POST">
+    <div class="mb-3">
+        <label  class="form-label">username</label>
+        <input type="text" class="form-control" name="username" aria-describedby="emailHelp" required>
+        <div class="invalid-feedback">Username can't be empty</div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required>
+        <div class="invalid-feedback">Password can't be empty</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
