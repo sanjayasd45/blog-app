@@ -1,5 +1,5 @@
+require('dotenv').config()
 const express = require('express');
-const password = encodeURIComponent("");
 const mongoose = require("mongoose");
 const {Post} = require('./models/post.js')
 const {Review} = require("./models/review.js")
@@ -16,6 +16,7 @@ const passportLocal = require("passport-local")
 const User = require("./models/user.js")
 const userRouter = require("./routers/user.js")
 const {isLogedIn} = require("./middlewares/new.js")
+const password = encodeURIComponent(process.env.PASSWORD)
 
 const port = '4040';
 
