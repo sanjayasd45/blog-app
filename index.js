@@ -1,5 +1,5 @@
 const express = require('express');
-const password = encodeURIComponent("@123railwaY");
+const password = encodeURIComponent("");
 const mongoose = require("mongoose");
 const {Post} = require('./models/post.js')
 const {Review} = require("./models/review.js")
