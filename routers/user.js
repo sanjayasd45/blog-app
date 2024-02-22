@@ -36,8 +36,9 @@ router.post("/login",
         failureFlash: true
         }), 
     async (req, res) => {
-        req.flash("success", "welcome back to the blog")
-        res.redirect(res.locals.redirectUrl)
+            req.flash("success", "welcome back to the blog")
+            let path = res.locals.redirectUrl || "/"
+            res.redirect(path)
     }
 )
 

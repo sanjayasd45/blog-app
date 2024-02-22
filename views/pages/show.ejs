@@ -11,17 +11,19 @@
                         <%= postData.content %>
                     </p>
                     <div class="mb-3">
-                        <span>@<%= postData.author  %></span>
+                        <span>@<%= postData.owner.username  %></span>
                         <samp><%= JSON.stringify(postData.date).substring(1,11)  %></samp>
                     </div>
-                    <div class="d-flex">
-                        <form action="/post/<%= postData._id  %>/edit">
-                            <button class="btn btn-primary">Edit</button>
-                        </form>
-                        <form method="POST" action="/post/<%= postData._id%>?_method=DELETE">
-                            <button class="btn btn-primary ">Delete</button>
-                        </form>
-                    </div>
+                    <% if(currUser && currUser._id.equals(postData.owner._id)) { %>
+                        <div class="d-flex">
+                            <form action="/post/<%= postData._id  %>/edit">
+                                <button class="btn btn-primary">Edit</button>
+                            </form>
+                            <form method="POST" action="/post/<%= postData._id%>?_method=DELETE">
+                                <button class="btn btn-primary ">Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
                 </div>
             </div>
             <div class="d-flex flex-wrap">

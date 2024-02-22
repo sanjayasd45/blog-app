@@ -11,13 +11,9 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    author:{
-        type: String,
-        required: true
-    },
     date:{
         type: Date,
-        required: true
+        default: Date.now()
     },
     img:{
         type:String,
@@ -28,7 +24,11 @@ const postSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref:"Review" 
         }
-    ]
+    ],
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
 })
 
 const Post = mongoose.model("Post", postSchema)

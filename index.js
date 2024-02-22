@@ -15,7 +15,7 @@ const passport = require("passport")
 const passportLocal = require("passport-local")
 const User = require("./models/user.js")
 const userRouter = require("./routers/user.js")
-const {isLogedIn} = require("./middlewares/new.js")
+const {isLogedIn, isOwner} = require("./middlewares/new.js")
 const password = encodeURIComponent(process.env.PASSWORD)
 
 const port = '4040';
@@ -64,15 +64,41 @@ app.use((req, res, next) => {
 })
 
 app.use("/user", userRouter)
+// app.put("/init/add", async (req, res) => {
+//     try {
+//         let data = await Post.updateMany({}, { $set: { owner: "65d5a4e6cba8e525a410d855" } });
+//         console.log(data);
+//         res.send("Done");
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Error occurred during update");
+//     }
+// });
+// app.put("/remove_field", async (req, res) => {
+//     try {
+//         let data = await Post.updateMany({}, { $unset: { author: "" } });
+//         console.log(data);
+//         res.send("Done");
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Error occurred during update");
+//     }
+// });
+
 
 app.get('/', wrapAsync(async(req, res) => {
-    const postData = await Post.find();
+    const postData = await Post.find().populate("owner");
     res.render('pages/index.ejs', {postData})
 }));
 
+
+
+
 app.get('/post/:id', wrapAsync(async(req, res) => {
     const {id} = req.params
-    const postData = await Post.findById(id).populate("reviews");
+    const postData = await Post.findById(id)
+        .populate("reviews")
+        .populate("owner");
     if(!postData){
         req.flash("error", "Post is deleted")
         res.redirect('/')
@@ -83,16 +109,16 @@ app.get('/add', isLogedIn ,(req, res, next) => {
     res.render('pages/add.ejs')
 });
 app.post('/add', isLogedIn, wrapAsync(async (req, res) => {
-    let data = {...req.body, date: new Date()}
+    let data = req.body
     const newPost = new Post(data); 
-    newPost.save()
+    newPost.owner = req.user._id
+    await newPost.save()
     req.flash("success", "New post added")
     res.redirect('/');
 }));
 
-app.delete('/post/:id', isLogedIn, wrapAsync(async(req, res) => {
+app.delete('/post/:id', isLogedIn, isOwner, wrapAsync(async(req, res) => {
     let { id } = req.params;
-    console.log(id);
     let deletedListing = await Post.findByIdAndDelete(id);
     req.flash("success", "Post deleted")
     res.redirect("/");
@@ -106,8 +132,8 @@ app.get('/post/:id/edit', isLogedIn, wrapAsync(async(req,res) => {
     }
     res.render("pages/edit.ejs", {data})
 }))
-app.put('/post/:id/edit', isLogedIn, wrapAsync(async(req, res) => {
-    const postData = {...req.body, date: new Date()}
+app.put('/post/:id/edit', isLogedIn, isOwner, wrapAsync(async(req, res) => {
+    const postData = req.body
     const {id} = req.params
     await Post.findByIdAndUpdate(id, postData)
     req.flash("success", "Post updated")

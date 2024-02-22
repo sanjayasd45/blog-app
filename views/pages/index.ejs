@@ -7,7 +7,7 @@
                     <h5 class="card-title"><%= i.title %></h5>
                     <p class="card-text small" ><%= i.content.substring(0,95)   %>...<a href="/post/<%= i._id  %>" class="">view more</a></p>   
                     <div class="">
-                        <span>@<%= i.author  %></span>
+                        <span>@<%= i.owner.username %></span>
                         <samp><%= JSON.stringify(i.date).substring(1,11)  %></samp>
                     </div>
                 </div>
