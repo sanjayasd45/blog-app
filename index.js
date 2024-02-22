@@ -82,7 +82,7 @@ app.get('/post/:id', wrapAsync(async(req, res) => {
 app.get('/add', isLogedIn ,(req, res, next) => {
     res.render('pages/add.ejs')
 });
-app.post('/add', wrapAsync(async (req, res) => {
+app.post('/add', isLogedIn, wrapAsync(async (req, res) => {
     let data = {...req.body, date: new Date()}
     const newPost = new Post(data); 
     newPost.save()
@@ -90,14 +90,14 @@ app.post('/add', wrapAsync(async (req, res) => {
     res.redirect('/');
 }));
 
-app.delete('/post/:id', wrapAsync(async(req, res) => {
+app.delete('/post/:id', isLogedIn, wrapAsync(async(req, res) => {
     let { id } = req.params;
     console.log(id);
     let deletedListing = await Post.findByIdAndDelete(id);
     req.flash("success", "Post deleted")
     res.redirect("/");
 }));
-app.get('/post/:id/edit', wrapAsync(async(req,res) => {
+app.get('/post/:id/edit', isLogedIn, wrapAsync(async(req,res) => {
     let {id} = req.params
     let data = await Post.findById(id)
     if(!data){
@@ -106,14 +106,14 @@ app.get('/post/:id/edit', wrapAsync(async(req,res) => {
     }
     res.render("pages/edit.ejs", {data})
 }))
-app.put('/post/:id/edit', wrapAsync(async(req, res) => {
+app.put('/post/:id/edit', isLogedIn, wrapAsync(async(req, res) => {
     const postData = {...req.body, date: new Date()}
     const {id} = req.params
     await Post.findByIdAndUpdate(id, postData)
     req.flash("success", "Post updated")
     res.redirect(`/post/${id}`)
 }))
-app.post('/review/:id', wrapAsync(async(req, res) => {
+app.post('/review/:id', isLogedIn, wrapAsync(async(req, res) => {
     const {id} = req.params;
     const post = await Post.findById(id)
     const newReview = new Review(req.body);
@@ -123,7 +123,7 @@ app.post('/review/:id', wrapAsync(async(req, res) => {
     req.flash("success", "Review Added")
     res.redirect(`/post/${id}`)
 }))
-app.delete('/post/:id/review/:reviewId', wrapAsync(async(req, res) => {
+app.delete('/post/:id/review/:reviewId', isLogedIn, wrapAsync(async(req, res) => {
     let {id, reviewId} = req.params
     await Review.findByIdAndDelete(reviewId);
     await Post.findByIdAndUpdate(id, {$pull: {reviews: reviewId}})

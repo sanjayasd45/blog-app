@@ -37,8 +37,7 @@ router.post("/login",
         }), 
     async (req, res) => {
         req.flash("success", "welcome back to the blog")
-        console.log(req.locals);
-        res.redirect(req.locals.redirectUrl)
+        res.redirect(res.locals.redirectUrl)
     }
 )
 
@@ -51,4 +50,4 @@ router.get("/logout", (req, res, next) => {
         res.redirect("/")
     })
 })
-module.exports = router 
+module.exports = router
