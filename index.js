@@ -39,8 +39,8 @@ let sessionOpt = {
     }
 }
 
-app.use(flash())
 app.use(session(sessionOpt))
+app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new passportLocal(User.authenticate()))
@@ -127,7 +127,7 @@ app.get('/post/:id/edit', isLogedIn, wrapAsync(async(req,res) => {
     let {id} = req.params
     let data = await Post.findById(id)
     if(!data){
-        req.flash("error", "Post is deleted")
+        req.flash("error", "Post not found")
         res.redirect('/')
     }
     res.render("pages/edit.ejs", {data})
